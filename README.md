@@ -29,7 +29,7 @@ The system includes:
 ---
 
 ## 🧩 Project Structure
-
+```markdown
 lib/
 │
 ├── core/ # Common logic (constants, helpers, services)
@@ -51,7 +51,7 @@ lib/
 │ └── routes/
 │
 └── main.dart # Entry point
-
+```
 ---
 
 ## 🧠 State Management
@@ -65,9 +65,9 @@ For complex flows → use full `Bloc`.
 ## 🧑‍💻 Development Setup
 
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/Mohammed-Balaswad/TOM-Travel-App.git
-   cd TOM-Travel-App
+```bash
+ git clone https://github.com/Mohammed-Balaswad/TOM-Travel-App.git
+ cd TOM-Travel-App
    ```
 2. Get Flutter dependencies:
  ```bash
@@ -84,16 +84,15 @@ For complex flows → use full `Bloc`.
 ## 🌱 Git Workflow (Team Guide)
 
 ```markdown
-   - main → Stable version only
-   - feature/ branches for each new task:
-```
-EX:
-git checkout -b feature/onboarding-ui
-git add .
-git commit -m "feat: add onboarding screens"
-git push origin feature/onboarding-ui
-```markdown
-   - Create Pull Requests → Review → Merge into main
+ - main → Stable version only
+ - feature/ branches for each new task:
+   EX:
+   git checkout -b feature/onboarding-ui
+   git add .
+   git commit -m "feat: add onboarding screens"
+   git push origin feature/onboarding-ui
+
+- Create Pull Requests → Review → Merge into main
 ```
 
 ---
