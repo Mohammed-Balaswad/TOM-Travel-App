@@ -1,16 +1,138 @@
-# tom_travel_app
+# 🧳 TOM Travel App
 
-A new Flutter project.
+A modern tourism and travel guide application built with **Flutter**.  
+The app provides tourists with access to destinations, hotels, and flight booking services — all inside one elegant mobile experience.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🚀 Overview
 
-A few resources to get you started if this is your first Flutter project:
+**TOM Travel App** aims to simplify travel planning by connecting tourists with travel agencies and hotel services through an interactive app.  
+The system includes:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- 🧭 **Tourist App:** Main user interface (Explore destinations, book hotels & flights).  
+- 🏢 **Admin Panel:** For companies (airlines/hotels) to manage bookings and approve or reject them.  
+- ☁️ **Backend:** Uses Firebase and RESTful APIs (to be integrated later).
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+## 📱 App Features
+
+| Category | Features |
+|-----------|-----------|
+| User | Register, Login, Edit Profile |
+| Explore | Browse destinations, view details |
+| Booking | Flight & Hotel booking, manage reservations |
+| Admin | Manage destinations, handle bookings |
+| General | Splash, Onboarding, Notifications, Dark Mode |
+
+---
+
+## 🧩 Project Structure
+
+lib/
+│
+├── core/ # Common logic (constants, helpers, services)
+│ ├── constants/
+│ ├── utils/
+│ └── theme/
+│
+├── data/ # Data Layer
+│ ├── models/
+│ ├── repositories/
+│ └── services/
+│
+├── logic/ # State Management (BLoC / Cubit)
+│ └── blocs/
+│
+├── presentation/ # UI Layer
+│ ├── screens/
+│ ├── widgets/
+│ └── routes/
+│
+└── main.dart # Entry point
+
+---
+
+## 🧠 State Management
+
+The app uses **BLoC** (Business Logic Component) for structured and scalable state management.  
+For smaller features → use `Cubit`,  
+For complex flows → use full `Bloc`.
+
+---
+
+## 🧑‍💻 Development Setup
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Mohammed-Balaswad/TOM-Travel-App.git
+   cd TOM-Travel-App
+   ```
+2. Get Flutter dependencies:
+ ```bash
+ flutter pub get
+```
+4. Run the app:
+```bash
+   flutter pub get
+   ```
+ 
+
+---
+
+## 🌱 Git Workflow (Team Guide)
+
+```markdown
+   - main → Stable version only
+   - feature/ branches for each new task:
+```
+EX:
+git checkout -b feature/onboarding-ui
+git add .
+git commit -m "feat: add onboarding screens"
+git push origin feature/onboarding-ui
+```markdown
+   - Create Pull Requests → Review → Merge into main
+```
+
+---
+
+## 📦 Tools & Technologies
+
+```markdown
+- Flutter (UI Framework)
+- Dart (Language)
+- Firebase (Authentication & DB)
+- RESTful APIs (Backend Integration)
+- Git & GitHub (Version Control)
+```
+
+---
+
+## 🧰 Folder Notes
+
+If you add any helper examples or prototypes (like counter_bloc),
+put them inside:
+examples/
+
+---
+
+## 👥 Team
+
+This project is part of a university team project, led by
+Project Lead: Mohammed Balaswad
+and includes multiple student developers collaborating via GitHub.
+
+---
+
+## 🗓️ Status
+
+✅ Project Setup Complete
+🕓 Currently: Preparing Flutter Architecture & Database Design
+
+---
+
+## 💡 Notes
+
+Keep commits clean and descriptive — we’re building a scalable, production-ready structure even for a university project.
