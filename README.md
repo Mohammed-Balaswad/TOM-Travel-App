@@ -126,9 +126,10 @@ and includes multiple student developers collaborating via GitHub.
 ---
 
 ## 🗓️ Status
-
+```markdown
 ✅ Project Setup Complete
 🕓 Currently: Preparing Flutter Architecture & Database Design
+```
 
 ---
 
