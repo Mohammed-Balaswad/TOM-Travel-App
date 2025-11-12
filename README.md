@@ -120,7 +120,7 @@ examples/
 ## 👥 Team
 
 This project is part of a university team project, led by
-Project Lead: Mohammed Balaswad
+Project Lead: Mohammed Saleh Balaswad
 and includes multiple student developers collaborating via GitHub.
 
 ---
