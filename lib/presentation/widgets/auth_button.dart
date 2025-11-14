@@ -33,15 +33,14 @@ Widget socialButton(String assetPath) {
   );
 }
 
+
 // زر التسجيل أو تسجيل الدخول
-Widget buildButton(String text) {
+Widget buildButton(String text, {VoidCallback? onPressed}) {
   return SizedBox(
     width: double.infinity,
     height: 50,
     child: InkWell(
-      onTap: () {
-        
-      },
+      onTap: onPressed, 
       borderRadius: BorderRadius.circular(25),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 5),
@@ -63,7 +62,7 @@ Widget buildButton(String text) {
         ),
         child: Center(
           child: Text(
-            text, // ← هنا نستخدم النص الممرر بدل ما يكون ثابت "Sign Up"
+            text,
             style: AppTextStyles.button.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -75,3 +74,4 @@ Widget buildButton(String text) {
     ),
   );
 }
+
