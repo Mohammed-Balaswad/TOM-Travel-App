@@ -1,71 +1,43 @@
-// import 'package:flutter/material.dart';
-// import 'package:tom_travel_app/presentation/screens/auth/login/login_screen.dart';
-// import 'package:tom_travel_app/presentation/screens/auth/signup/signup_screen.dart';
-// import 'package:tom_travel_app/presentation/screens/explore/explore_screen.dart';
-// import 'package:tom_travel_app/presentation/screens/onboarding/onboarding_screen.dart';
-
-
-// void main() {
-//   runApp(const MyApp());
-// }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Travel Companion',
-//       debugShowCheckedModeBanner: false,
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//         useMaterial3: true,
-//       ),
-//       home: const ExploreScreen(),
-//     );
-//   }
-// }
-
-
-
+// ignore_for_file: use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tom_travel_app/presentation/screens/auth/login/login_screen.dart';
-import 'package:tom_travel_app/presentation/screens/auth/signup/signup_screen.dart';
-import 'package:tom_travel_app/presentation/screens/explore/explore_screen.dart';
-import 'package:tom_travel_app/presentation/screens/splash/splash_screen.dart';
-import 'data/repositories/auth_repository.dart';
-import 'logic/cubits/auth_cubit.dart';
-import 'presentation/screens/login_screen.dart';
+import 'package:tom_travel_app/data/repositories/auth_repository.dart';
+import 'package:tom_travel_app/logic/cubits/auth_cubit.dart';
+import 'package:tom_travel_app/presentation/routes/app_routes.dart';
+import 'package:tom_travel_app/presentation/screens/profile/profile_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  final authRepository = AuthRepository();
+
+  runApp(
+  MultiBlocProvider(
+    providers: [
+      BlocProvider<AuthCubit>(
+        create: (_) => AuthCubit(authRepository),
+      ),
+    ],
+    child: TomTravelApp(appRouter: AppRouter()),
+  ),
+);
+
 }
 
-class MyApp extends StatelessWidget {
-  final AuthRepository _authRepository = AuthRepository();
 
-  MyApp({super.key});
+class TomTravelApp extends StatelessWidget {
+  final AppRouter _appRouter;
+
+  const TomTravelApp({super.key, required AppRouter appRouter})
+      : _appRouter = appRouter;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      routes: {
-      // intialRoute: (_) => SplashScreen(),
-       // '/' : (_) => SplashScreen(),
-        '/login': (_) => BlocProvider(
-              create: (_) => AuthCubit(_authRepository),
-              child: LoginScreen(),
-            ),
-            '/signup': (_) => BlocProvider(
-              create: (_) => AuthCubit(_authRepository),
-              child: SignupScreen(),
-            ),
-        '/home': (_) => ExploreScreen(),
-      },
-      initialRoute: '/login',
+      title: 'Tom Travel',
+      onGenerateRoute: _appRouter.generateRoute,
+      initialRoute: '/',
     );
   }
 }
+

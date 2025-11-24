@@ -47,8 +47,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         curve: Curves.easeInOut,
       );
     } else {
-      // هنا تنقل لصفحة التسجيل / الرئيسية
-      Navigator.push(context, SlideRightRoute(page: const LoginScreen()));
+      // navigate to login
+     Navigator.pushReplacementNamed(context, '/login');
     }
   }
 
@@ -120,7 +120,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         child: TextButton(
                           onPressed: () {
                             if (currentIndex == 0) {
-                              Navigator.push(context, SlideRightRoute(page: const LoginScreen()));
+                              Navigator.pushReplacementNamed(context, '/login');
                             } else {
                               _controller.previousPage(
                                 duration: const Duration(milliseconds: 300),

@@ -44,8 +44,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    String? emailError;
-    String? passwordError;
+    //String? emailError;
+    //String? passwordError;
 
     return Scaffold(
       body: AppBackground(
@@ -53,10 +53,8 @@ class _LoginScreenState extends State<LoginScreen> {
           listener: (context, state) {
             if (state is AuthSuccess) {
               _showSnack("Login successful!");
-              Navigator.pushReplacement(
-                context,
-                SlideRightRoute(page: const ExploreScreen()),
-              );
+              Navigator.pushReplacementNamed(context, '/home');
+
             } else if (state is AuthFailure) {
               _showSnack(state.message, error: true);
             }

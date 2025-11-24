@@ -1,6 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:tom_travel_app/core/network/base_api.dart';
+import 'package:tom_travel_app/core/network/dio_client.dart';
+import 'package:tom_travel_app/data/datasources/local/auth_local_data_source.dart';
 import 'package:tom_travel_app/data/models/user_model.dart';
-
 
 class AuthResult {
   final UserModel user;
@@ -8,11 +10,16 @@ class AuthResult {
 
   AuthResult(this.user, this.token);
 }
-// يتصل ب base_api و يرسل الايميل و الباسورد
+
 class AuthRepository {
   final BaseApi _api = BaseApi();
+  final AuthLocalDataSource _local = AuthLocalDataSource();
 
-  Future<AuthResult> login({required String email, required String password}) async {
+  //             LOGIN
+  Future<AuthResult> login({
+    required String email,
+    required String password,
+  }) async {
     final response = await _api.post('/login', {
       'email': email,
       'password': password,
@@ -21,24 +28,85 @@ class AuthRepository {
     final user = UserModel.fromJson(response.data['user']);
     final token = response.data['token'];
 
+    // حفظ الجلسة
+    await _local.saveToken(token);
+
     return AuthResult(user, token);
   }
 
-  Future<AuthResult> register({
+
+  //             REGISTER
+   Future<AuthResult> register({
     required String name,
     required String email,
     required String password,
     String? phone,
   }) async {
-  final response = await _api.post('/register', {
+    final response = await _api.post('/register', {
+      'name': name,
+      'email': email,
+      'password': password,
+      if (phone != null) 'phone': phone,
+    });
+
+    final user = UserModel.fromJson(response.data['user']);
+    final token = response.data['token'];
+
+    await _local.saveToken(token);
+
+    return AuthResult(user, token);
+  }
+
+
+Future<UserModel> updateProfile({
+  required String name,
+  required String email,
+  String? phone,
+  String? imagePath,
+}) async {
+  FormData formData = FormData.fromMap({
     'name': name,
     'email': email,
-    'password': password,
     if (phone != null) 'phone': phone,
+    if (imagePath != null)
+      'profile_image': await MultipartFile.fromFile(imagePath),
+    '_method': 'PUT',
   });
 
-  final user = UserModel.fromJson(response.data['user']);
-  final token = response.data['token'];
-  return AuthResult(user, token);
+  final response = await DioClient().post(
+    '/profile',
+    data: formData,
+  );
+
+  return UserModel.fromJson(response.data['user']);
+}
+
+
+
+// Future<UserModel> updateProfile({
+//   String? name,
+//   String? phone,
+//   XFile? image,
+// }) async {
+//   FormData data = FormData.fromMap({
+//     if (name != null) 'name': name,
+//     if (phone != null) 'phone': phone,
+//     if (image != null)
+//       'profile_image': await MultipartFile.fromFile(image.path),
+//   });
+
+//   final response = await _api.putMultipart('/profile', data);
+
+//   return UserModel.fromJson(response.data['user']);
+// }
+
+
+  Future<String?> getSavedToken() async {
+    return await _local.getToken();
   }
+
+  Future<void> logout() async {
+  await _local.clearToken();
+}
+
 }

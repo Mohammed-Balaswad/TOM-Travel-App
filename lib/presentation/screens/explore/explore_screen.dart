@@ -50,13 +50,18 @@ class _ExploreScreenState extends State<ExploreScreen> {
             SafeArea(
               child: Column(
                 children: [
-                  _buildHeaderSection(context).animate()
+                  _buildHeaderSection(context)
+                      .animate()
                       .fade(duration: 600.ms, delay: 300.ms)
                       .slideY(begin: 0.2),
+
                   const SizedBox(height: 30),
-                  _buildSearchSection(context).animate()
-                          .fade(duration: 600.ms, delay: 500.ms)
-                          .slideY(begin: 0.2),
+
+                  _buildSearchSection(context)
+                      .animate()
+                      .fade(duration: 600.ms, delay: 500.ms)
+                      .slideY(begin: 0.2),
+                      
                   const SizedBox(height: 50),
                   
 
@@ -102,16 +107,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       ),
                     ),
                   ),
-                   CustomBottomNavBar(
-                    currentIndex: selectedIndex,
-                    onTap: (index) {
-                      setState(() {
-                        selectedIndex = index;
-                      });
-                    },
-                  ).animate()
-                          .fade(duration: 600.ms, delay: 1400.ms)
-                          .slideY(begin: 0.2),
+                  
                 ],
               ),
             ),

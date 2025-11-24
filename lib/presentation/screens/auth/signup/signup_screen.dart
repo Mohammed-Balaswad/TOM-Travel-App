@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,7 +50,7 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     String? emailError;
-    String? passwordError;
+    //String? passwordError;
 
     
     return Scaffold(
@@ -63,10 +65,8 @@ class _SignupScreenState extends State<SignupScreen> {
             } 
             else if (state is AuthSuccess) {
                _showSnack("Account created successfully!");
-              Navigator.pushReplacement(
-                context,
-                SlideRightRoute(page: const ExploreScreen()),
-              );
+              Navigator.pushReplacementNamed(context, '/home');
+
             } 
             else if (state is AuthFailure) {
               if (state.message.contains('email has already been taken')) {
