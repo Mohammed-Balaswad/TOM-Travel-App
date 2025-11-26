@@ -1,11 +1,15 @@
 class ApiEndpoints {
-  static const String baseUrl = "http://10.0.2.2:8000/api";
+  static const String baseUrl = "http://192.168.0.105:8000/api";
 
   // Auth
   static const String login = "$baseUrl/login";
   static const String register = "$baseUrl/register";
   static const String logout = "$baseUrl/logout";
   static const String userProfile = "$baseUrl/profile";
+
+
+  // Search
+   static const String search = "/search";
 
   // Hotels
   static const String hotels = "$baseUrl/hotels";

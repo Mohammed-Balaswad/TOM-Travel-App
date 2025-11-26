@@ -1,10 +1,17 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:tom_travel_app/core/theme/app_colors.dart';
 import 'package:tom_travel_app/core/theme/app_text_styles.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:tom_travel_app/data/models/search_result_model.dart';
+import 'package:tom_travel_app/logic/cubits/destination_cubit.dart';
+import 'package:tom_travel_app/logic/cubits/hotel_cubit.dart';
+import 'package:tom_travel_app/logic/cubits/search_cubit.dart';
+import 'package:tom_travel_app/logic/states/destination_states.dart';
+import 'package:tom_travel_app/logic/states/hotel_states.dart';
 import 'package:tom_travel_app/presentation/widgets/bottom_navigation_bar.dart';
 import '../../widgets/app_background.dart';
 
@@ -17,6 +24,14 @@ class ExploreScreen extends StatefulWidget {
 
 class _ExploreScreenState extends State<ExploreScreen> {
   int selectedIndex = 0;
+
+  @override
+void initState() {
+  super.initState();
+  context.read<DestinationCubit>().fetchDestinations();
+  context.read<HotelCubit>().fetchHotels();
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -170,55 +185,159 @@ class _ExploreScreenState extends State<ExploreScreen> {
   }
 
   // ---------------- Search Section ----------------
-  Widget _buildSearchSection(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Row(
-        children: [
-          Expanded(
-            child: TextField(
-              style: const TextStyle(color: AppColors.navyBlue),
-              decoration: InputDecoration(
-                hintText: "Search Destination, Hotels ...",
-                hintStyle: AppTextStyles.button.copyWith(
-                  color: AppColors.mediumBlue.withOpacity(0.7),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w200,
-                ),
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: SvgPicture.asset('assets/icons/search_icon.svg'),
-                ),
-                filled: true,
-                fillColor: Colors.grey.withOpacity(0.2),
-                contentPadding: const EdgeInsets.symmetric(
-                  vertical: 16,
-                  horizontal: 20,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                  borderSide: BorderSide.none,
+Widget _buildSearchSection(BuildContext context) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 24),
+    child: Row(
+      children: [
+        // ---- نص البحث + قائمة الاقتراحات أسفلها ----
+        Expanded(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // TextField (نفس الشكل بالضبط)
+              TextField(
+                style: const TextStyle(color: AppColors.navyBlue),
+                onChanged: (value) {
+                  // ننادي الـ cubit لكل تغيير (ابتداءً من حرفين في الكيوبت نفسه)
+                  context.read<SearchCubit>().search(value);
+                },
+                decoration: InputDecoration(
+                  hintText: "Search Destination, Hotels ...",
+                  hintStyle: AppTextStyles.button.copyWith(
+                    color: AppColors.mediumBlue.withOpacity(0.7),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w200,
+                  ),
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: SvgPicture.asset('assets/icons/search_icon.svg'),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey.withOpacity(0.2),
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 16,
+                    horizontal: 20,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
-            ),
+
+              // المساحة الفاصلة الصغيرة
+              const SizedBox(height: 8),
+
+              // BlocBuilder: يعرض الاقتراحات إن وُجِدت
+              BlocBuilder<SearchCubit, List<SearchResultModel>>(
+                builder: (context, results) {
+                  if (results.isEmpty) return const SizedBox.shrink();
+
+                  // صندوق الاقتراحات
+                  return Container(
+                    constraints: const BoxConstraints(
+                      maxHeight: 320, // يحد الارتفاع حتى لا يملأ الشاشة
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.08),
+                          blurRadius: 8,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: results.length,
+                      separatorBuilder: (_, __) => const Divider(height: 1),
+                      itemBuilder: (context, i) {
+                        final r = results[i];
+                        return ListTile(
+                          dense: true,
+                          leading: CircleAvatar(
+                            backgroundImage: r.image != null
+                                ? NetworkImage(r.image!)
+                                : const AssetImage(
+                                    'assets/images/hotels/Hotel-de-Paris.jpg',
+                                  ) as ImageProvider,
+                          ),
+                          title: Text(
+                            r.title,
+                            style: const TextStyle(color: Colors.black),
+                          ),
+                          subtitle: Text(
+                            r.subtitle ?? '',
+                            style: const TextStyle(fontSize: 12),
+                          ),
+                          trailing: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: r.type == 'hotel'
+                                  ? AppColors.lightBlue.withOpacity(0.2)
+                                  : AppColors.mediumBlue.withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              r.type.toUpperCase(),
+                              style: const TextStyle(fontSize: 11),
+                            ),
+                          ),
+                          onTap: () {
+                            // عند النقر ننتقل لصفحة التفاصيل المناسبة
+                            if (r.type == 'destination') {
+                              Navigator.pushNamed(
+                                context,
+                                '/destination-details',
+                                arguments: r.id,
+                              );
+                            } else {
+                              Navigator.pushNamed(
+                                context,
+                                '/hotel-details',
+                                arguments: r.id,
+                              );
+                            }
+
+                            // نفرغ النتائج بعد الاختيار
+                            context.read<SearchCubit>().clear();
+                            // (اختياري) نغلق لوحة المفاتيح
+                            FocusScope.of(context).unfocus();
+                          },
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
-          const SizedBox(width: 16),
-          Container(
-            height: 52,
-            width: 52,
-            decoration: BoxDecoration(
-              color: AppColors.mediumBlue,
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(14.0),
-              child: SvgPicture.asset('assets/icons/filter_icon.svg'),
-            ),
+        ),
+
+        const SizedBox(width: 16),
+
+        // ---- زر الفلتر كما هو ----
+        Container(
+          height: 52,
+          width: 52,
+          decoration: BoxDecoration(
+            color: AppColors.mediumBlue,
+            borderRadius: BorderRadius.circular(30),
           ),
-        ],
-      ),
-    );
-  }
+          child: Padding(
+            padding: const EdgeInsets.all(14.0),
+            child: SvgPicture.asset('assets/icons/filter_icon.svg'),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
 
   // ---------------- Categories Section ----------------
   Widget _buildCategoriesSection(BuildContext context) {
@@ -284,75 +403,87 @@ class _ExploreScreenState extends State<ExploreScreen> {
   }
 
   // ---------------- Popular Destinations ----------------
-  Widget _buildPopularDestinationsSection(BuildContext context) {
-    final destinations = [
-      {
-        'image': 'assets/images/destinations/Reykjavík.png',
-        'city': 'Reykjavik',
-        'country': 'Iceland',
-        'rating': '4.9',
-      },
-      {
-        'image': 'assets/images/destinations/Oia, Santorini.png',
-        'city': 'Oia, Santorini',
-        'country': 'Greece',
-        'rating': '4.8',
-      },
-      {
-        'image': 'assets/images/destinations/Dubai.png',
-        'city': 'Dubai',
-        'country': 'UAE',
-        'rating': '4.6',
-      },
-    ];
+Widget _buildPopularDestinationsSection(BuildContext context) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      _buildSectionHeader("Popular Destinations"),
+      const SizedBox(height: 8),
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildSectionHeader("Popular Destinations"),
-        const SizedBox(height: 8),
-        SizedBox(
-          height: 240,
-          child: ListView.separated(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            scrollDirection: Axis.horizontal,
-            separatorBuilder: (_, __) => const SizedBox(width: 16),
-            itemCount: destinations.length,
-            itemBuilder: (context, index) {
-              final item = destinations[index];
-              return GestureDetector(
-                onTap: () {
-                  //! منطق الوجهة
-                },
-                child: Container(
-                  width: 160,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(18),
-                    image: DecorationImage(
-                      image: AssetImage(item['image']!),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  child: Stack(
-                    children: [
-                      // تدرج غامق أسفل الصورة
-                      Positioned.fill(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(18),
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Colors.transparent,
-                                AppColors.darkBlue.withOpacity(0.3),
-                              ],
-                            ),
-                          ),
+      BlocBuilder<DestinationCubit, DestinationState>(
+        builder: (context, state) {
+          if (state is DestinationLoading) {
+            return const Center(
+              child: Padding(
+                padding: EdgeInsets.only(top: 40),
+                child: CircularProgressIndicator(color: Colors.white),
+              ),
+            );
+          }
+
+          if (state is DestinationError) {
+            return Center(
+              child: Padding(
+                padding: EdgeInsets.only(top: 40),
+                child: Text(
+                  state.message,
+                  style: const TextStyle(color: Colors.red),
+                ),
+              ),
+            );
+          }
+
+          if (state is DestinationLoaded) {
+            final destinations = state.destinations;
+
+            return SizedBox(
+              height: 240,
+              child: ListView.separated(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                scrollDirection: Axis.horizontal,
+                separatorBuilder: (_, __) => const SizedBox(width: 16),
+                itemCount: destinations.length > 3 ? 3 : destinations.length,
+                itemBuilder: (context, index) {
+                  final item = destinations[index];
+
+                  return GestureDetector(
+                    onTap: () {
+                      // الانتقال لتفاصيل الوجهة لاحقًا
+                    },
+                    child: Container(
+                      width: 160,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(18),
+                        image: DecorationImage(
+                          image: item.image != null
+                              ? NetworkImage(item.image!)
+                              : const AssetImage(
+                                  'assets/images/destinations/Paris.png',
+                                ) as ImageProvider,
+                          fit: BoxFit.cover,
                         ),
                       ),
-                      // التقييم + المفضلة
-                      Positioned(
+                      child: Stack(
+                        children: [
+                          // Gradient overlay
+                          Positioned.fill(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(18),
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    Colors.transparent,
+                                    AppColors.darkBlue.withOpacity(0.3),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          // Rating
+                           Positioned(
                         top: 10,
                         left: 10,
                         right: 10,
@@ -379,12 +510,12 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                   ),
                                   const SizedBox(width: 4),
                                   Text(
-                                    item['rating']!,
-                                    style: AppTextStyles.heading.copyWith(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                                        item.averageRating.toString(),
+                                        style: AppTextStyles.heading.copyWith(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                   ),
                                 ],
                               ),
@@ -411,122 +542,142 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         ),
                       ),
 
-                      // البلد + المدينة
-                      Positioned(
-                        left: 10,
-                        bottom: 12,
-                        right: 10,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
+                          // Country + City
+                          Positioned(
+                            left: 10,
+                            bottom: 12,
+                            right: 10,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SvgPicture.asset(
-                                  'assets/icons/location_icon.svg',
+                                Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      'assets/icons/location_icon.svg',
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      item.country,
+                                      style:
+                                          AppTextStyles.heading.copyWith(
+                                        color: Colors.white70,
+                                        fontSize: 11,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(width: 4),
+                                SizedBox(height: 3),
                                 Text(
-                                  item['country']!,
+                                  item.name,
                                   style: AppTextStyles.heading.copyWith(
-                                    color: Colors.white70,
-                                    fontSize: 11,
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                    height: 1.2,
                                   ),
                                 ),
                               ],
                             ),
-                            Text(
-                              item['city']!,
-                              style: AppTextStyles.heading.copyWith(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                height: 1.2,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      ],
-    );
-  }
+                    ),
+                  );
+                },
+              ),
+            );
+          }
+
+          return const SizedBox();
+        },
+      ),
+    ],
+  );
+}
+
 
   // ---------------- Top Hotels ----------------
   Widget _buildTopHotelsSection(BuildContext context) {
-    final destinations = [
-      {
-        'image': 'assets/images/hotels/Paradise.png',
-        'hotel': 'Paradise',
-        'country': 'Greece',
-        'rating': '4.9',
-      },
-      {
-        'image': 'assets/images/hotels/Vila-lenu.png',
-        'hotel': 'Villa lenu',
-        'country': 'Canggu, Bali',
-        'rating': '4.8',
-      },
-      {
-        'image': 'assets/images/hotels/Hotel-de-Paris.jpg',
-        'hotel': 'Hotel de Paris',
-        'country': 'Paris',
-        'rating': '4.6',
-      },
-    ];
-
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildSectionHeader("Top Hotels"),
-        const SizedBox(height: 8),
-        SizedBox(
-          height: 240,
-          child: ListView.separated(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            scrollDirection: Axis.horizontal,
-            separatorBuilder: (_, __) => const SizedBox(width: 16),
-            itemCount: destinations.length,
-            itemBuilder: (context, index) {
-              final item = destinations[index];
-              return GestureDetector(
-                onTap: () {
-                  //! منطق الوجهة
-                },
-                child: Container(
-                  width: 160,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(18),
-                    image: DecorationImage(
-                      image: AssetImage(item['image']!),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  child: Stack(
-                    children: [
-                      // تدرج غامق أسفل الصورة
-                      Positioned.fill(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(18),
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Colors.transparent,
-                                AppColors.darkBlue.withOpacity(0.3),
-                              ],
-                            ),
-                          ),
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      _buildSectionHeader("Top Hotels"),
+      const SizedBox(height: 8),
+
+      BlocBuilder<HotelCubit, HotelState>(
+        builder: (context, state) {
+          if (state is HotelLoading) {
+            return const Center(
+              child: Padding(
+                padding: EdgeInsets.only(top: 40),
+                child: CircularProgressIndicator(color: Colors.white),
+              ),
+            );
+          }
+
+          if (state is HotelError) {
+            return Center(
+              child: Padding(
+                padding: EdgeInsets.only(top: 40),
+                child: Text(
+                  state.message,
+                  style: const TextStyle(color: Colors.red),
+                ),
+              ),
+            );
+          }
+
+          if (state is HotelLoaded) {
+            final hotels = state.hotels;
+
+            return SizedBox(
+              height: 240,
+              child: ListView.separated(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                scrollDirection: Axis.horizontal,
+                separatorBuilder: (_, __) => const SizedBox(width: 16),
+                itemCount: hotels.length > 3 ? 3 : hotels.length,
+                itemBuilder: (context, index) {
+                  final item = hotels[index];
+
+                  return GestureDetector(
+                    onTap: () {
+                      // الانتقال لتفاصيل الفندق لاحقًا
+                    },
+                    child: Container(
+                      width: 160,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(18),
+                        image: DecorationImage(
+                          image: item.image != null
+                              ? NetworkImage(item.image!)
+                              : const AssetImage(
+                                  'assets/images/hotels/Blue-horazin-hotel.jpg',
+                                ) as ImageProvider,
+                          fit: BoxFit.cover,
                         ),
                       ),
-                      // التقييم + المفضلة
-                      Positioned(
+                      child: Stack(
+                        children: [
+                          // Gradient overlay
+                          Positioned.fill(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(18),
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    Colors.transparent,
+                                    AppColors.darkBlue.withOpacity(0.3),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          // Rating
+                           Positioned(
                         top: 10,
                         left: 10,
                         right: 10,
@@ -553,12 +704,12 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                   ),
                                   const SizedBox(width: 4),
                                   Text(
-                                    item['rating']!,
-                                    style: AppTextStyles.heading.copyWith(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                                        item.averageRating.toString(),
+                                        style: AppTextStyles.heading.copyWith(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                   ),
                                 ],
                               ),
@@ -585,50 +736,57 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         ),
                       ),
 
-                      // البلد + المدينة
-                      Positioned(
-                        left: 10,
-                        bottom: 12,
-                        right: 10,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
+                          // Country + City
+                          Positioned(
+                            left: 10,
+                            bottom: 12,
+                            right: 10,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SvgPicture.asset(
-                                  'assets/icons/location_icon.svg',
+                                Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      'assets/icons/location_icon.svg',
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      '${item.destination.country}, ${item.destination.name}',
+                                      style:
+                                          AppTextStyles.heading.copyWith(
+                                        color: Colors.white70,
+                                        fontSize: 11,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(width: 4),
+                                SizedBox(height: 3),
                                 Text(
-                                  item['country']!,
+                                  item.name,
                                   style: AppTextStyles.heading.copyWith(
-                                    color: Colors.white70,
-                                    fontSize: 11,
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                    height: 1.2,
                                   ),
                                 ),
                               ],
                             ),
-                            Text(
-                              item['hotel']!,
-                              style: AppTextStyles.heading.copyWith(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                height: 1.2,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      ],
-    );
+                    ),
+                  );
+                },
+              ),
+            );
+          }
+
+          return const SizedBox();
+        },
+      ),
+    ],
+  );
   }
 
   // ---------------- Helper: Section Title ----------------

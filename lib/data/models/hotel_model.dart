@@ -11,7 +11,7 @@ class HotelModel {
   final String? location;
   final List<String>? amenities;
   final double averageRating;
-  final DestinationModel? destination;
+  final DestinationModel destination;
   final List<RoomModel>? rooms;
   final List<ReviewModel>? reviews;
 
@@ -24,7 +24,7 @@ class HotelModel {
     this.location,
     this.amenities,
     required this.averageRating,
-    this.destination,
+    required this.destination,
     this.rooms,
     this.reviews,
   });
@@ -41,9 +41,7 @@ class HotelModel {
           ? List<String>.from(json['amenities'])
           : null,
       averageRating: double.tryParse(json['average_rating'].toString()) ?? 0.0,
-      destination: json['destination'] != null
-          ? DestinationModel.fromJson(json['destination'])
-          : null,
+      destination: DestinationModel.fromJson(json['destination']),
       rooms: json['rooms'] != null
           ? List<RoomModel>.from(
               json['rooms'].map((x) => RoomModel.fromJson(x)))
@@ -64,7 +62,7 @@ class HotelModel {
         "location": location,
         "amenities": amenities,
         "average_rating": averageRating,
-        "destination": destination?.toJson(),
+        "destination": destination.toJson(),
         "rooms": rooms?.map((x) => x.toJson()).toList(),
         "reviews": reviews?.map((x) => x.toJson()).toList(),
       };

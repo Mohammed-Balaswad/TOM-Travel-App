@@ -26,8 +26,6 @@ Future<void> login(String email, String password) async {
 }
 
 
-
-
 Future<void> register(String name, String email, String password, String phone) async {
   emit(AuthLoading());
   try {
@@ -76,8 +74,6 @@ Future<void> updateProfile({
     emit(AuthFailure(e.toString()));
   }
 }
-
-
 
 
   Future<void> logout() async {

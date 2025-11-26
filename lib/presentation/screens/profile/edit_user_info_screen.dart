@@ -138,8 +138,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       const SizedBox(height: 50),
                       // الصورة الأساسية
                         SizedBox(
-                          width: 60,
-                          height: 60,
+                          width: 80,
+                          height: 80,
                           child: CircleAvatar(
                           radius: 45,
                           backgroundColor: Colors.white,

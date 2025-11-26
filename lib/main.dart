@@ -1,34 +1,56 @@
 // ignore_for_file: use_key_in_widget_constructors
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:tom_travel_app/data/repositories/auth_repository.dart';
+import 'package:tom_travel_app/data/repositories/destination_repository.dart';
+import 'package:tom_travel_app/data/repositories/hotel_repository.dart';
+import 'package:tom_travel_app/data/repositories/search_repository.dart';
+
 import 'package:tom_travel_app/logic/cubits/auth_cubit.dart';
+import 'package:tom_travel_app/logic/cubits/destination_cubit.dart';
+import 'package:tom_travel_app/logic/cubits/hotel_cubit.dart';
+import 'package:tom_travel_app/logic/cubits/search_cubit.dart';
+
 import 'package:tom_travel_app/presentation/routes/app_routes.dart';
-import 'package:tom_travel_app/presentation/screens/profile/profile_screen.dart';
 
 void main() {
   final authRepository = AuthRepository();
+  final destinationRepository = DestinationRepository();
+  final hotelRepository = HotelRepository();
+  final searchRepository = SearchRepository();
 
   runApp(
-  MultiBlocProvider(
-    providers: [
-      BlocProvider<AuthCubit>(
-        create: (_) => AuthCubit(authRepository),
-      ),
-    ],
-    child: TomTravelApp(appRouter: AppRouter()),
-  ),
-);
-
+    ScreenUtilInit(
+      designSize: const Size(390, 844),
+      minTextAdapt: true,
+      builder: (context, child) {
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider<AuthCubit>(create: (_) => AuthCubit(authRepository)),
+            BlocProvider<DestinationCubit>(
+              create: (_) => DestinationCubit(destinationRepository),
+            ),
+            BlocProvider<HotelCubit>(
+              create: (_) => HotelCubit(hotelRepository),
+            ),
+            BlocProvider<SearchCubit>(
+              create: (_) => SearchCubit(searchRepository),
+            ),
+          ],
+          child: child!,
+        );
+      },
+      child: TomTravelApp(appRouter: AppRouter()),
+    ),
+  );
 }
-
 
 class TomTravelApp extends StatelessWidget {
   final AppRouter _appRouter;
 
-  const TomTravelApp({super.key, required AppRouter appRouter})
-      : _appRouter = appRouter;
+  const TomTravelApp({required AppRouter appRouter}) : _appRouter = appRouter;
 
   @override
   Widget build(BuildContext context) {
@@ -40,4 +62,3 @@ class TomTravelApp extends StatelessWidget {
     );
   }
 }
-

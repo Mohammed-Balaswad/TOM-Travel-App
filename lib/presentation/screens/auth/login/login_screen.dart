@@ -7,8 +7,6 @@ import 'package:tom_travel_app/core/theme/app_colors.dart';
 import 'package:tom_travel_app/core/theme/app_text_styles.dart';
 import 'package:tom_travel_app/logic/cubits/auth_cubit.dart';
 import 'package:tom_travel_app/logic/states/auth_states.dart';
-import 'package:tom_travel_app/presentation/routes/custom_transitions.dart';
-import 'package:tom_travel_app/presentation/screens/explore/explore_screen.dart';
 import 'package:tom_travel_app/presentation/widgets/app_background.dart';
 import 'package:tom_travel_app/presentation/widgets/auth_button.dart';
 import 'package:tom_travel_app/presentation/widgets/auth_fields.dart';

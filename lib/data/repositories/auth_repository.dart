@@ -82,25 +82,6 @@ Future<UserModel> updateProfile({
 }
 
 
-
-// Future<UserModel> updateProfile({
-//   String? name,
-//   String? phone,
-//   XFile? image,
-// }) async {
-//   FormData data = FormData.fromMap({
-//     if (name != null) 'name': name,
-//     if (phone != null) 'phone': phone,
-//     if (image != null)
-//       'profile_image': await MultipartFile.fromFile(image.path),
-//   });
-
-//   final response = await _api.putMultipart('/profile', data);
-
-//   return UserModel.fromJson(response.data['user']);
-// }
-
-
   Future<String?> getSavedToken() async {
     return await _local.getToken();
   }

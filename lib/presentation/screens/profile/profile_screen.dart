@@ -61,12 +61,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       vertical: 80,
                     ),
                     child: Column(
-                      children: [
-                        CircleAvatar(
-                          radius: 35,
-                          child: SizedBox(
-                            width: 50,
-                            height: 50,
+                      children: [              
+                          SizedBox(
+                            width: 80,
+                            height: 80,
                             child: CircleAvatar(
                                   radius: 35,
                                   backgroundImage:
@@ -81,8 +79,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               as ImageProvider,
                                 )
 
-                          ),
-                        ).animate()
+                          )
+                        .animate()
                                .fade(duration: 400.ms, delay: 300.ms)
                                 .slideY(begin: 0.2),
                         SizedBox(height: 12),
