@@ -23,6 +23,9 @@ class ApiEndpoints {
   static const String hotelBookings = "$baseUrl/hotel-bookings";
   static const String flightBookings = "$baseUrl/flight-bookings";
 
+  // My Trips
+  static const String myTrips = "$baseUrl/my-trips";
+
   // Destinations
   static const String destinations = "$baseUrl/destinations";
   static String destinationById(int id) => "$baseUrl/destinations/$id";
@@ -41,6 +44,8 @@ class ApiEndpoints {
 
   // Favorites
   static const String favorites = "$baseUrl/favorites";
+  static String deleteFavorite(int id) => "$baseUrl/favorites/$id";
+
 
   // Notifications
   static const String notifications = "$baseUrl/notifications";

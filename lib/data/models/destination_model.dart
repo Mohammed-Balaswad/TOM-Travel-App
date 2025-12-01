@@ -4,7 +4,7 @@ class DestinationModel {
   final String country;
   final String? description;
   final String? image;
-  final double averageRating;
+  final double? averageRating;
   final String? category;
 
   DestinationModel({

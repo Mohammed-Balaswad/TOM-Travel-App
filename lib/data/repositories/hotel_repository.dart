@@ -5,7 +5,7 @@ class HotelRepository {
   final DioClient _client = DioClient();
 
   Future<List<HotelModel>> getHotels() async {
-    final response = await _client.get("/hotels");
+    final response = await _client.get("/hotels"); 
 
     final List data = response.data["data"];
 

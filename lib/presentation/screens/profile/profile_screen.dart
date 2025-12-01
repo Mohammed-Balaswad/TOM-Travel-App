@@ -71,7 +71,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       state is AuthSuccess &&
                                               state.user.profileImage != null
                                           ? NetworkImage(
-                                            state.user.profileImage!,
+                                            "http://192.168.0.105:8000/storage/${state.user.profileImage}",
                                           )
                                           : const AssetImage(
                                                 'assets/icons/Avatar-Placeholder_icon.png',
@@ -167,11 +167,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
 
                         child:  Padding(
-                          padding: const EdgeInsets.only(right: 90 , left: 110),
+                          padding: const EdgeInsets.only(left: 90),
                           child: ListTile(
                             leading: Icon(Icons.logout , color: Colors.white, size: 30,),
                             title: Text('Log out',
-                            style: AppTextStyles.button.copyWith(fontSize: 22, color: Colors.white),
+                            style: AppTextStyles.button.copyWith(fontSize: 20, color: Colors.white),
                                                 ),
                                                 ),
                         ),
@@ -211,9 +211,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           onTap;
         },
         child: ListTile(
-          leading: SvgPicture.asset(iconpath ,color: AppColors.white, width: 25 , height: 25,),
+          leading: SvgPicture.asset(iconpath ,color: AppColors.white, width: 24 , height: 24,),
           title: Text(title , style: AppTextStyles.button.copyWith(color: AppColors.white,
-            fontSize: 18 , fontWeight: FontWeight.w600)
+            fontSize: 17 , fontWeight: FontWeight.w600)
             ),
           trailing: const Icon(Icons.arrow_forward_ios, size: 16 , color: AppColors.white,),
           onTap: onTap,

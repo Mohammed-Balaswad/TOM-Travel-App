@@ -41,7 +41,11 @@ class HotelModel {
           ? List<String>.from(json['amenities'])
           : null,
       averageRating: double.tryParse(json['average_rating'].toString()) ?? 0.0,
-      destination: DestinationModel.fromJson(json['destination']),
+
+      destination: (json['destination'] != null && json['destination'] is Map<String, dynamic>)
+    ? DestinationModel.fromJson(json['destination'] as Map<String, dynamic>)
+    : DestinationModel(id: 0, name: '', country: '', averageRating: null), // أو قيمة افتراضية
+
       rooms: json['rooms'] != null
           ? List<RoomModel>.from(
               json['rooms'].map((x) => RoomModel.fromJson(x)))

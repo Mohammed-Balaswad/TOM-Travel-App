@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tom_travel_app/presentation/screens/explore/explore_screen.dart';
+import 'package:tom_travel_app/presentation/screens/favoriete/favoriete_screen.dart';
+import 'package:tom_travel_app/presentation/screens/mytrips/mytrips_screen.dart';
 import 'package:tom_travel_app/presentation/screens/profile/profile_screen.dart';
 import 'package:tom_travel_app/presentation/widgets/bottom_navigation_bar.dart';
 
@@ -16,8 +18,8 @@ class _HomeLayoutState extends State<HomeLayout> {
 
   final List<Widget> screens = [
     const ExploreScreen(),
-    Placeholder(), // MyTrip (لاحقاً)
-    Placeholder(), // Favorite (لاحقاً)
+    const MyTripsScreen(), 
+    const FavorieteScreen(), 
     const ProfileScreen(),
   ];
 

@@ -13,7 +13,6 @@ import 'package:tom_travel_app/logic/states/auth_states.dart';
 import 'package:tom_travel_app/presentation/widgets/app_background.dart';
 import 'package:tom_travel_app/presentation/widgets/auth_button.dart';
 import 'package:tom_travel_app/presentation/widgets/auth_fields.dart';
-import 'package:tom_travel_app/presentation/widgets/bottom_navigation_bar.dart';
 
 
 class EditProfileScreen extends StatefulWidget {
@@ -55,6 +54,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       _nameController.text = state.user.name;
       _emailController.text = state.user.email;
       _phoneController.text = state.user.phone ?? "";
+      selectedImagePath = state.user.profileImage;
 
     }
   }

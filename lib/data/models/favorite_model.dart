@@ -7,6 +7,7 @@ class FavoriteModel {
   final int favorableId;
   final String? createdAt;
   final UserModel? user;
+  final Map<String, dynamic>? favorable; 
 
   FavoriteModel({
     required this.id,
@@ -15,6 +16,7 @@ class FavoriteModel {
     required this.favorableId,
     this.createdAt,
     this.user,
+    this.favorable,
   });
 
   factory FavoriteModel.fromJson(Map<String, dynamic> json) {
@@ -25,6 +27,7 @@ class FavoriteModel {
       favorableId: json['favorable_id'],
       createdAt: json['created_at'],
       user: json['user'] != null ? UserModel.fromJson(json['user']) : null,
+      favorable: json['favorable'], // يخزن الـ object كما هو
     );
   }
 
@@ -35,5 +38,6 @@ class FavoriteModel {
         "favorable_id": favorableId,
         "created_at": createdAt,
         "user": user?.toJson(),
+        "favorable": favorable,
       };
 }

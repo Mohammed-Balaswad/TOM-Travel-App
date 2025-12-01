@@ -8,8 +8,6 @@ import 'package:tom_travel_app/core/theme/app_colors.dart';
 import 'package:tom_travel_app/core/theme/app_text_styles.dart';
 import 'package:tom_travel_app/logic/cubits/auth_cubit.dart';
 import 'package:tom_travel_app/logic/states/auth_states.dart';
-import 'package:tom_travel_app/presentation/routes/custom_transitions.dart';
-import 'package:tom_travel_app/presentation/screens/explore/explore_screen.dart';
 import 'package:tom_travel_app/presentation/widgets/app_background.dart';
 import 'package:tom_travel_app/presentation/widgets/auth_button.dart';
 import 'package:tom_travel_app/presentation/widgets/auth_fields.dart';
@@ -94,7 +92,7 @@ class _SignupScreenState extends State<SignupScreen> {
             children: [
               // شكل نصف الدائرة البيضاء في الأعلى
               Positioned(
-                top: -size.width * 0.4,
+                top: -size.width * 0.5,
                 left: -size.width * 0.1,
                 child: Container(
                   width: size.width * 1.2,
@@ -112,12 +110,12 @@ class _SignupScreenState extends State<SignupScreen> {
                   children: [
                     // الشعار
                     Transform.translate(
-                      offset: const Offset(0, 20), // ← تحريك للأعلى بمقدار 40px
+                      offset: const Offset(0, 0), // ← تحريك للأعلى بمقدار 40px
                       child: Column(
                         children: [
                           SizedBox(
                             width: 100,
-                            height: 100,
+                            height: 90,
                             child: SvgPicture.asset(
                               'assets/icons/secondary_blue_logo_icon.svg',
                             ),
@@ -125,7 +123,7 @@ class _SignupScreenState extends State<SignupScreen> {
                            .fade(duration: 1000.ms)
                             .slideY(begin: 0.3, end: 0, curve: Curves.easeOut),
           
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 18),
           
                           Text(
                             'Join tom,',
@@ -155,7 +153,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                     ),
 
-                    const SizedBox(height: 120),
+                    const SizedBox(height: 90),
 
                     Expanded(
                       child: SingleChildScrollView(

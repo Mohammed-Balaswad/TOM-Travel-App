@@ -30,9 +30,9 @@ class RoomModel {
       size: json['size'],
       pricePerNight:
           double.tryParse(json['price_per_night'].toString()) ?? 0.0,
-      features: json['features'] != null
-          ? List<String>.from(json['features'])
-          : null,
+      features: (json['features'] != null && json['features'] is List)
+    ? List<String>.from(json['features'])
+    : null,
       description: json['description'],
       isAvailable: json['is_available'] ?? false,
     );

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tom_travel_app/data/repositories/auth_repository.dart';
+import 'package:tom_travel_app/presentation/screens/favoriete/favoriete_screen.dart';
 
 import 'package:tom_travel_app/presentation/screens/home_layout.dart';
+import 'package:tom_travel_app/presentation/screens/mytrips/mytrips_screen.dart';
 import 'package:tom_travel_app/presentation/screens/profile/edit_user_info_screen.dart';
 import 'package:tom_travel_app/presentation/screens/profile/profile_screen.dart';
 import 'package:tom_travel_app/presentation/screens/splash/splash_screen.dart';
@@ -15,7 +17,7 @@ class AppRouter {
   Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) => const SplashScreen());
+        return MaterialPageRoute(builder: (_) => const SplashScreen()); 
 
       case '/onboarding':
         return MaterialPageRoute(builder: (_) => const OnboardingScreen());
@@ -28,13 +30,19 @@ class AppRouter {
 
       case '/home':
       return MaterialPageRoute(builder: (_) => const HomeLayout());
+      
+      case '/mytrips':
+      return MaterialPageRoute(builder: (_) => const MyTripsScreen());
 
+      case '/favorite':
+        return MaterialPageRoute(builder: (_) => const FavorieteScreen());
 
       case '/profile':
         return MaterialPageRoute(builder: (_) => const ProfileScreen());
 
       case '/editprofile':
         return MaterialPageRoute(builder: (_) => const EditProfileScreen());
+      
 
       default:
         return MaterialPageRoute(

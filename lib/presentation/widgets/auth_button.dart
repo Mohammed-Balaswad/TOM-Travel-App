@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tom_travel_app/core/theme/app_text_styles.dart';
-import 'package:tom_travel_app/presentation/routes/custom_transitions.dart';
-import 'package:tom_travel_app/presentation/screens/explore/explore_screen.dart';
+
 
 
 /// زر تسجيل بواسطة حسابات التواصل الاجتماعي

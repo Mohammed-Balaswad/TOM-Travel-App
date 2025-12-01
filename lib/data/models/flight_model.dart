@@ -52,10 +52,12 @@ class FlightModel {
       arrivalTime: json['arrival_time'],
       duration: json['duration'],
       cabinClass: json['cabin_class'] ?? 'Economy',
-      baggagePolicy: json['baggage_policy'],
-      amenities: json['amenities'] != null
-          ? List<String>.from(json['amenities'])
-          : null,
+      baggagePolicy: (json['baggage_policy'] != null && json['baggage_policy'] is Map<String, dynamic>)
+    ? Map<String, dynamic>.from(json['baggage_policy'])
+    : null,
+     amenities: (json['amenities'] != null && json['amenities'] is List)
+    ? List<String>.from(json['amenities'])
+    : null,
       price: double.tryParse(json['price'].toString()) ?? 0.0,
       availableSeats: json['available_seats'] ?? 0,
     );

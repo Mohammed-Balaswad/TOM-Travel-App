@@ -114,7 +114,7 @@ class CustomBottomNavBar extends StatelessWidget {
               label,
               style: TextStyle(
                 fontFamily: 'Afacad',
-                fontSize: isSelected ? 16 : 12,
+                fontSize: isSelected ? 14 : 10,
                 fontWeight: isSelected ? FontWeight.w500 : FontWeight.w400,
                 color: isSelected ? const Color.fromARGB(255, 2, 47, 252) : Colors.white,
                 letterSpacing: isSelected ? -0.32 : -0.24,

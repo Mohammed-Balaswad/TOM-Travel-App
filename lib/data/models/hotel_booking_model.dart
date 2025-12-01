@@ -57,9 +57,17 @@ class HotelBookingModel {
       totalPrice: double.tryParse(json['total_price'].toString()) ?? 0.0,
       status: json['status'] ?? 'pending',
       paymentStatus: json['payment_status'] ?? 'unpaid',
-      hotel: json['hotel'] != null ? HotelModel.fromJson(json['hotel']) : null,
-      room: json['room'] != null ? RoomModel.fromJson(json['room']) : null,
-      user: json['user'] != null ? UserModel.fromJson(json['user']) : null,
+      hotel: (json['hotel'] != null && json['hotel'] is Map<String, dynamic>)
+    ? HotelModel.fromJson(json['hotel'] as Map<String, dynamic>)
+    : null,
+      room: (json['room'] != null && json['room'] is Map<String, dynamic>)
+    ? RoomModel.fromJson(json['room'] as Map<String, dynamic>)
+    : null,
+      user: (json['user'] != null && json['user'] is Map<String, dynamic>)
+    ? UserModel.fromJson(json['user'] as Map<String, dynamic>)
+    : null,
+
+
     );
   }
 

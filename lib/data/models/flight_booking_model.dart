@@ -51,8 +51,13 @@ class FlightBookingModel {
       totalPrice: double.tryParse(json['total_price'].toString()) ?? 0.0,
       status: json['status'] ?? 'pending',
       paymentStatus: json['payment_status'] ?? 'unpaid',
-      flight: json['flight'] != null ? FlightModel.fromJson(json['flight']) : null,
-      user: json['user'] != null ? UserModel.fromJson(json['user']) : null,
+      flight: (json['flight'] != null && json['flight'] is Map<String, dynamic>)
+    ? FlightModel.fromJson(json['flight'] as Map<String, dynamic>)
+    : null,
+      user: (json['user'] != null && json['user'] is Map<String, dynamic>)
+    ? UserModel.fromJson(json['user'] as Map<String, dynamic>)
+    : null,
+
     );
   }
 

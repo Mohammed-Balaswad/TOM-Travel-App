@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:tom_travel_app/core/theme/app_colors.dart';
 import 'package:tom_travel_app/core/theme/app_text_styles.dart';
@@ -12,7 +13,7 @@ import 'package:tom_travel_app/logic/cubits/hotel_cubit.dart';
 import 'package:tom_travel_app/logic/cubits/search_cubit.dart';
 import 'package:tom_travel_app/logic/states/destination_states.dart';
 import 'package:tom_travel_app/logic/states/hotel_states.dart';
-import 'package:tom_travel_app/presentation/widgets/bottom_navigation_bar.dart';
+import 'package:tom_travel_app/presentation/widgets/favorite_icon.dart';
 import '../../widgets/app_background.dart';
 
 class ExploreScreen extends StatefulWidget {
@@ -70,14 +71,14 @@ void initState() {
                       .fade(duration: 600.ms, delay: 300.ms)
                       .slideY(begin: 0.2),
 
-                  const SizedBox(height: 30),
+                   SizedBox(height: 30.h),
 
                   _buildSearchSection(context)
                       .animate()
                       .fade(duration: 600.ms, delay: 500.ms)
                       .slideY(begin: 0.2),
                       
-                  const SizedBox(height: 50),
+                   SizedBox(height: 50.h),
                   
 
                   //  المحتوى المتحرك داخل ShaderMask لتأثير التلاشي
@@ -104,18 +105,24 @@ void initState() {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(height: size.width * 0.11),
+                            
                             _buildCategoriesSection(context).animate()
                           .fade(duration: 600.ms, delay: 700.ms)
                           .slideY(begin: 0.2),
-                            const SizedBox(height: 40),
+
+                             SizedBox(height: 40.h),
+
                             _buildPopularDestinationsSection(context).animate()
                           .fade(duration: 600.ms, delay: 900.ms)
                           .slideY(begin: 0.2),
-                            const SizedBox(height: 30),
+
+                             SizedBox(height: 30.h),
+
                             _buildTopHotelsSection(context).animate()
                           .fade(duration: 600.ms, delay: 1100.ms)
                           .slideY(begin: 0.2),
-                            const SizedBox(height: 50),
+
+                             SizedBox(height: 50.h),
                             
                           ],
                         ),
@@ -165,8 +172,8 @@ void initState() {
             ],
           ),
           Container(
-            height: 50,
-            width: 50,
+            height: 50.h,
+            width: 50.r,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.grey[50],
@@ -227,7 +234,7 @@ Widget _buildSearchSection(BuildContext context) {
               ),
 
               // المساحة الفاصلة الصغيرة
-              const SizedBox(height: 8),
+               SizedBox(height: 8.h),
 
               // BlocBuilder: يعرض الاقتراحات إن وُجِدت
               BlocBuilder<SearchCubit, List<SearchResultModel>>(
@@ -236,8 +243,8 @@ Widget _buildSearchSection(BuildContext context) {
 
                   // صندوق الاقتراحات
                   return Container(
-                    constraints: const BoxConstraints(
-                      maxHeight: 320, // يحد الارتفاع حتى لا يملأ الشاشة
+                    constraints:  BoxConstraints(
+                      maxHeight: 320.h, // يحد الارتفاع حتى لا يملأ الشاشة
                     ),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -253,7 +260,7 @@ Widget _buildSearchSection(BuildContext context) {
                     child: ListView.separated(
                       shrinkWrap: true,
                       itemCount: results.length,
-                      separatorBuilder: (_, __) => const Divider(height: 1),
+                      separatorBuilder: (_, __) =>  Divider(height: 1.h),
                       itemBuilder: (context, i) {
                         final r = results[i];
                         return ListTile(
@@ -318,12 +325,12 @@ Widget _buildSearchSection(BuildContext context) {
           ),
         ),
 
-        const SizedBox(width: 16),
+         SizedBox(width: 16.r),
 
         // ---- زر الفلتر كما هو ----
         Container(
-          height: 52,
-          width: 52,
+          height: 52.h,
+          width: 52.r,
           decoration: BoxDecoration(
             color: AppColors.mediumBlue,
             borderRadius: BorderRadius.circular(30),
@@ -349,11 +356,11 @@ Widget _buildSearchSection(BuildContext context) {
     ];
 
     return SizedBox(
-      height: 100,
+      height: 100.h,
       child: ListView.separated(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 18),
         scrollDirection: Axis.horizontal,
-        separatorBuilder: (_, __) => const SizedBox(width: 29),
+        separatorBuilder: (_, __) =>  SizedBox(width: 28.r),
         itemCount: categories.length,
         itemBuilder: (context, index) {
           final cat = categories[index];
@@ -364,33 +371,35 @@ Widget _buildSearchSection(BuildContext context) {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  height: 70,
-                  width: 70,
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SvgPicture.asset(
-                        cat['icon']!,
-                        width: 46,
-                        height: 46,
-                        color: AppColors.mediumBlue,
-                        // colorFilter:
-                        //     const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                Expanded(
+                  child: Container(
+                    height: 64.h,
+                    width: 66.r,
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SvgPicture.asset(
+                          cat['icon']!,
+                          width: 38.r,
+                          height: 38.h,
+                          color: AppColors.mediumBlue,
+                          // colorFilter:
+                          //     const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                        ),
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 8),
+                 SizedBox(height: 8.h),
                 Text(
                   cat['label']!,
                   style: AppTextStyles.heading.copyWith(
                     color: AppColors.white,
-                    fontSize: 14,
+                    fontSize: 12,
                     fontWeight: FontWeight.normal,
                   ),
                 ),
@@ -408,7 +417,7 @@ Widget _buildPopularDestinationsSection(BuildContext context) {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       _buildSectionHeader("Popular Destinations"),
-      const SizedBox(height: 8),
+       SizedBox(height: 8.h),
 
       BlocBuilder<DestinationCubit, DestinationState>(
         builder: (context, state) {
@@ -434,159 +443,135 @@ Widget _buildPopularDestinationsSection(BuildContext context) {
           }
 
           if (state is DestinationLoaded) {
-            final destinations = state.destinations;
+  final destinations = state.destinations;
 
-            return SizedBox(
-              height: 240,
-              child: ListView.separated(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                scrollDirection: Axis.horizontal,
-                separatorBuilder: (_, __) => const SizedBox(width: 16),
-                itemCount: destinations.length > 3 ? 3 : destinations.length,
-                itemBuilder: (context, index) {
-                  final item = destinations[index];
+  return SizedBox(
+    height: 240.h,
+    child: ListView.separated(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      scrollDirection: Axis.horizontal,
+      separatorBuilder: (_, __) => SizedBox(width: 16.r),
+      itemCount: destinations.length > 3 ? 3 : destinations.length,
+      itemBuilder: (context, index) {
+        final item = destinations[index];
 
-                  return GestureDetector(
-                    onTap: () {
-                      // الانتقال لتفاصيل الوجهة لاحقًا
-                    },
-                    child: Container(
-                      width: 160,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(18),
-                        image: DecorationImage(
-                          image: item.image != null
-                              ? NetworkImage(item.image!)
-                              : const AssetImage(
-                                  'assets/images/destinations/Paris.png',
-                                ) as ImageProvider,
-                          fit: BoxFit.cover,
-                        ),
+        
+        return GestureDetector(
+          onTap: () {
+            // TODO الانتقال لتفاصيل الوجهة لاحقًا
+          },
+          child: Container(
+            width: 160.r,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(18),
+              image: DecorationImage(
+                image: item.image != null
+                    ? NetworkImage(item.image!)
+                    : const AssetImage('assets/images/destinations/Paris.png') as ImageProvider,
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Stack(
+              children: [
+                // Gradient overlay
+                Positioned.fill(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(18),
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.transparent,
+                          AppColors.darkBlue.withOpacity(0.3),
+                        ],
                       ),
-                      child: Stack(
-                        children: [
-                          // Gradient overlay
-                          Positioned.fill(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(18),
-                                gradient: LinearGradient(
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                  colors: [
-                                    Colors.transparent,
-                                    AppColors.darkBlue.withOpacity(0.3),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
+                    ),
+                  ),
+                ),
 
-                          // Rating
-                           Positioned(
-                        top: 10,
-                        left: 10,
-                        right: 10,
+                // Rating + Favorite Icon (مربوطة بحالة Cubit)
+                Positioned(
+                  top: 10,
+                  left: 10,
+                  right: 10,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Rating container (كما هو)
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.45),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.4),
+                            width: 1.r,
+                          ),
+                        ),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 4,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.45),
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                  color: Colors.white.withOpacity(0.4),
-                                  width: 1,
-                                ),
-                              ),
-                              child: Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    'assets/icons/star_icon.svg',
-                                  ),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                        item.averageRating.toString(),
-                                        style: AppTextStyles.heading.copyWith(
-                                          color: Colors.white,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              height: 26,
-                              width: 26,
-                              decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.4),
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: Colors.white.withOpacity(0.4),
-                                  width: 1,
-                                ),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: SvgPicture.asset(
-                                  'assets/icons/white_hart_icon.svg',
-                                ),
+                            SvgPicture.asset('assets/icons/star_icon.svg'),
+                            SizedBox(width: 4.r),
+                            Text(
+                              item.averageRating.toString(),
+                              style: AppTextStyles.heading.copyWith(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ],
                         ),
                       ),
 
-                          // Country + City
-                          Positioned(
-                            left: 10,
-                            bottom: 12,
-                            right: 10,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                      'assets/icons/location_icon.svg',
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      item.country,
-                                      style:
-                                          AppTextStyles.heading.copyWith(
-                                        color: Colors.white70,
-                                        fontSize: 11,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 3),
-                                Text(
-                                  item.name,
-                                  style: AppTextStyles.heading.copyWith(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600,
-                                    height: 1.2,
-                                  ),
-                                ),
-                              ],
+                      FavoriteIcon(type: "destination", itemId: item.id),
+                    ],
+                  ),
+                ),
+
+                // Country + City (كما هو)
+                Positioned(
+                  left: 10,
+                  bottom: 12,
+                  right: 10,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          SvgPicture.asset('assets/icons/location_icon.svg'),
+                          SizedBox(width: 4.r),
+                          Text(
+                            item.country,
+                            style: AppTextStyles.heading.copyWith(
+                              color: Colors.white70,
+                              fontSize: 11,
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  );
-                },
-              ),
-            );
-          }
+                      SizedBox(height: 3.h),
+                      Text(
+                        item.name,
+                        style: AppTextStyles.heading.copyWith(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          height: 1.2.h,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    ),
+  );
+}
 
           return const SizedBox();
         },
@@ -602,7 +587,7 @@ Widget _buildPopularDestinationsSection(BuildContext context) {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       _buildSectionHeader("Top Hotels"),
-      const SizedBox(height: 8),
+       SizedBox(height: 8.h),
 
       BlocBuilder<HotelCubit, HotelState>(
         builder: (context, state) {
@@ -631,11 +616,11 @@ Widget _buildPopularDestinationsSection(BuildContext context) {
             final hotels = state.hotels;
 
             return SizedBox(
-              height: 240,
+              height: 240.h,
               child: ListView.separated(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 scrollDirection: Axis.horizontal,
-                separatorBuilder: (_, __) => const SizedBox(width: 16),
+                separatorBuilder: (_, __) =>  SizedBox(width: 16.r),
                 itemCount: hotels.length > 3 ? 3 : hotels.length,
                 itemBuilder: (context, index) {
                   final item = hotels[index];
@@ -645,7 +630,7 @@ Widget _buildPopularDestinationsSection(BuildContext context) {
                       // الانتقال لتفاصيل الفندق لاحقًا
                     },
                     child: Container(
-                      width: 160,
+                      width: 160.r,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(18),
                         image: DecorationImage(
@@ -694,7 +679,7 @@ Widget _buildPopularDestinationsSection(BuildContext context) {
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
                                   color: Colors.white.withOpacity(0.4),
-                                  width: 1,
+                                  width: 1.r,
                                 ),
                               ),
                               child: Row(
@@ -702,7 +687,7 @@ Widget _buildPopularDestinationsSection(BuildContext context) {
                                   SvgPicture.asset(
                                     'assets/icons/star_icon.svg',
                                   ),
-                                  const SizedBox(width: 4),
+                                   SizedBox(width: 4.r),
                                   Text(
                                         item.averageRating.toString(),
                                         style: AppTextStyles.heading.copyWith(
@@ -714,24 +699,8 @@ Widget _buildPopularDestinationsSection(BuildContext context) {
                                 ],
                               ),
                             ),
-                            Container(
-                              height: 26,
-                              width: 26,
-                              decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.4),
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: Colors.white.withOpacity(0.4),
-                                  width: 1,
-                                ),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: SvgPicture.asset(
-                                  'assets/icons/white_hart_icon.svg',
-                                ),
-                              ),
-                            ),
+                               FavoriteIcon(type: "hotel", itemId: item.id),
+
                           ],
                         ),
                       ),
@@ -749,7 +718,7 @@ Widget _buildPopularDestinationsSection(BuildContext context) {
                                     SvgPicture.asset(
                                       'assets/icons/location_icon.svg',
                                     ),
-                                    const SizedBox(width: 4),
+                                     SizedBox(width: 4.r),
                                     Text(
                                       '${item.destination.country}, ${item.destination.name}',
                                       style:
@@ -760,14 +729,14 @@ Widget _buildPopularDestinationsSection(BuildContext context) {
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 3),
+                                SizedBox(height: 3.h),
                                 Text(
                                   item.name,
                                   style: AppTextStyles.heading.copyWith(
                                     color: Colors.white,
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600,
-                                    height: 1.2,
+                                    height: 1.2.h,
                                   ),
                                 ),
                               ],
@@ -800,7 +769,7 @@ Widget _buildPopularDestinationsSection(BuildContext context) {
             title,
             style: AppTextStyles.heading.copyWith(
               color: Colors.white,
-              fontSize: 20,
+              fontSize: 19,
               fontWeight: FontWeight.w300,
             ),
           ),
@@ -812,7 +781,7 @@ Widget _buildPopularDestinationsSection(BuildContext context) {
               "View All",
               style: AppTextStyles.heading.copyWith(
                 color: AppColors.lightBlue,
-                fontSize: 14,
+                fontSize: 13,
                 fontWeight: FontWeight.w300,
               ),
             ),
