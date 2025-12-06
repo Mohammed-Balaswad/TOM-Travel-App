@@ -39,7 +39,7 @@ class HotelBookingModel {
     this.hotel,
     this.room,
     this.user,
-  });
+  }); 
 
   factory HotelBookingModel.fromJson(Map<String, dynamic> json) {
     return HotelBookingModel(

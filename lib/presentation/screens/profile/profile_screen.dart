@@ -71,7 +71,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       state is AuthSuccess &&
                                               state.user.profileImage != null
                                           ? NetworkImage(
-                                            "http://192.168.0.105:8000/storage/${state.user.profileImage}",
+                                            "http://192.168.173.190:8000/storage/${state.user.profileImage}",
                                           )
                                           : const AssetImage(
                                                 'assets/icons/Avatar-Placeholder_icon.png',

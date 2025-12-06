@@ -8,12 +8,12 @@ class FavoritesRepository {
 
   Future<List<FavoriteModel>> getFavorites() async {
     final response = await _client.get("/favorites");
-    print("Raw favorites response: ${response.data}");
+   // print("Raw favorites response: ${response.data}");
     final List favorites = response.data['data'];
     return favorites.map((f) => FavoriteModel.fromJson(f)).toList();
   }
 
-  Future<void> addFavorite(String type, int favorableId) async {
+  Future<void> addFavorite(String type, int favorableId) async { 
   await _client.post("/favorites", data: {
     "favorable_type": type,   
     "favorable_id": favorableId,
@@ -24,4 +24,4 @@ class FavoritesRepository {
   await _client.delete(ApiEndpoints.deleteFavorite(id));
 }
 
-}
+} 

@@ -6,7 +6,7 @@ class FavoritesInitial extends FavoritesState {}
 
 class FavoritesLoading extends FavoritesState {}
 
-class FavoritesLoaded extends FavoritesState {
+class FavoritesLoaded extends FavoritesState { 
   final List<FavoriteModel> favorites;
   FavoritesLoaded(this.favorites);
 }

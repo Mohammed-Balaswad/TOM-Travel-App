@@ -6,8 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tom_travel_app/core/theme/app_colors.dart';
 import 'package:tom_travel_app/core/theme/app_text_styles.dart';
-import 'package:tom_travel_app/presentation/routes/custom_transitions.dart';
-import 'package:tom_travel_app/presentation/screens/auth/login/login_screen.dart';
 import 'package:tom_travel_app/presentation/widgets/app_background.dart';
 
 class OnboardingScreen extends StatefulWidget {

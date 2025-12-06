@@ -14,13 +14,13 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     emit(FavoritesLoading());
     try {
       final favorites = await repo.getFavorites();
-      print("Cubit fetched favorites count: ${favorites.length}");
+      //print("Cubit fetched favorites count: ${favorites.length}");
       emit(FavoritesLoaded(favorites));
     } catch (e) {
       print("Error in FavoritesCubit: $e");
       emit(FavoritesError(e.toString()));
     }
-  }
+  } 
 
   Future<void> addFavorite(String type, int favorableId) async {
   try {
@@ -40,7 +40,7 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     }
   }
 
-  bool isFavorite(String type, int favorableId) {
+  bool isFavorite(String type, int favorableId) { 
   if (state is! FavoritesLoaded) return false;
 
   return (state as FavoritesLoaded).favorites.any(

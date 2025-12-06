@@ -10,12 +10,10 @@ class MyTripsCubit extends Cubit<MyTripsState> {
   Future<void> fetchMyTrips() async {
   emit(MyTripsLoading());
   try {
-    //print("Fetching trips..."); // للتأكد أن الدالة اشتغلت
     final trips = await repo.getMyTrips();
-    //print("Trips fetched: $trips");
+    
     emit(MyTripsLoaded(trips));
   } catch (e) {
-    //print("Error in Cubit: $e");
     emit(MyTripsError(e.toString()));
   }
 }

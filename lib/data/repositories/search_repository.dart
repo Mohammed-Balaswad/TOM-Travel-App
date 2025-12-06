@@ -6,6 +6,7 @@ class SearchRepository {
 
   Future<List<SearchResultModel>> search(String q) async {
    final response = await _api.get('/search', query: {'q': q});
+   
     final data = response.data['results'] as List<dynamic>? ?? [];
 
     return data.map((e) => SearchResultModel.fromJson(e as Map<String, dynamic>)).toList();

@@ -15,6 +15,7 @@ class HotelRepository {
 
   Future<HotelModel> getHotelById(int id) async {
     final response = await _client.get("/hotels/$id");
+    
     return HotelModel.fromJson(response.data["data"]);
   }
   

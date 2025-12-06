@@ -14,7 +14,7 @@ class FavorieteScreen extends StatefulWidget {
   const FavorieteScreen({super.key});
 
   @override
-  State<FavorieteScreen> createState() => _FavorieteScreen();
+  State<FavorieteScreen> createState() => _FavorieteScreen(); 
 }
 
 class _FavorieteScreen extends State<FavorieteScreen> {
@@ -272,7 +272,7 @@ class _FavorieteScreen extends State<FavorieteScreen> {
   }
 
   //====================================================
-  //!            UNIFIED CARD DESIGN (PRO DESIGN)
+  //!            UNIFIED CARD DESIGN
   //====================================================
 
   Widget _unifiedCard({

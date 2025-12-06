@@ -7,7 +7,7 @@ class MyTripsRepository {
 
   Future<MyTripsModel> getMyTrips() async {
   final response = await _client.get(ApiEndpoints.myTrips);
-  //print("Raw response: ${response.data}");
+  
   return MyTripsModel.fromJson(response.data["data"]);
 }
 }
